@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import {  useEffect, useState } from 'react'
+import ImageGallery from './components /ImageGallery/ImageGallery';
+import Loader from './components /Loader/Loader';
+// import SearchBar from './components /SearchBar/SearchBar'
 import './App.css'
+import axios from 'axios'
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+  const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState (false)
+  useEffect(() => {
+    const fetchImages = async () => {
+      setIsLoading (true)
+      const response = await axios.get(
+        "https://api.unsplash.com/photos/?client_id=otANXC1EJFsVllXe4H6I4all7gWw62R5SlyCizaq6X4");
+      setImages(response.data)
+      setIsLoading (false)
+      
+    }
+    fetchImages();
+  
+}, [])
+  
+  //  const handleSubmit = (evt) => {
+  //   evt.preventDefault();
+  //   const form = evt.target;
+  //    const topic = form.elements.topic.value.trim();
+  //   if(topic === "") {
+	// 		alert("Please enter search term!")
+	// 		return;
+	// 	}
+  //   fetchImages(topic);
+  //   form.reset();
+  // };
+
+   return (
+     <>
+       {/* <SearchBar onSubmit={handleSubmit} /> */}
+       {isLoading &&<Loader/>}
+       {images.length > 0 && (<ImageGallery images={images} />)}
+       
+      
     </>
-  )
+  );
 }
 
 export default App
