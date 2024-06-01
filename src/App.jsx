@@ -1,48 +1,65 @@
 import {  useEffect, useState } from 'react'
 import ImageGallery from './components /ImageGallery/ImageGallery';
 import Loader from './components /Loader/Loader';
-// import SearchBar from './components /SearchBar/SearchBar'
+import ErrorMessage from './components /ErrorMessage/ErrorMassage'
+import SearchBar from './components /SearchBar/SearchBar';
 import './App.css'
-import axios from 'axios'
+import { getImagesApi } from './components /api/images-api';
+
 
 function App() {
 
   const [images, setImages] = useState([]);
-  const [isLoading, setIsLoading] = useState (false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [query, setQuery] = useState('')
+  const [page, setPage] = useState(1)
   useEffect(() => {
     const fetchImages = async () => {
-      setIsLoading (true)
-      const response = await axios.get(
-        "https://api.unsplash.com/photos/?client_id=otANXC1EJFsVllXe4H6I4all7gWw62R5SlyCizaq6X4");
-      setImages(response.data)
-      setIsLoading (false)
+      try {
+        setError(false)
+        setIsLoading(true)
+        const data = await getImagesApi(query, page);
+        setImages((prev) => [...prev, ...data]);
+      
+      
+        
+      } catch (error) {
+       
+        setError(true)
+        
+      }
+      finally {
+        setIsLoading(false)
+      }
       
     }
-    fetchImages();
+    // query && fetchImages();
+    if (query) fetchImages();
   
-}, [])
+  }, [page, query])
   
-  //  const handleSubmit = (evt) => {
-  //   evt.preventDefault();
-  //   const form = evt.target;
-  //    const topic = form.elements.topic.value.trim();
-  //   if(topic === "") {
-	// 		alert("Please enter search term!")
-	// 		return;
-	// 	}
-  //   fetchImages(topic);
-  //   form.reset();
-  // };
+  const handleSubmit = async (searchQuery) => {
+    setQuery(searchQuery)
+    setImages([])
+    setPage(1)
+  }
 
-   return (
-     <>
-       {/* <SearchBar onSubmit={handleSubmit} /> */}
-       {isLoading &&<Loader/>}
-       {images.length > 0 && (<ImageGallery images={images} />)}
+  const handleLoadMore = async () => {
+    setPage(page + 1)
+  }
+    return (
+      <>
+        <SearchBar submit={handleSubmit} />
+        {isLoading && <p><Loader /></p>
+        }
+        {error && <ErrorMessage />}
+        {images.length > 0 && (<ImageGallery images={images} />)}
+        {images.length > 0 && <button onClick={handleLoadMore}>load more..</button>}
        
       
-    </>
-  );
-}
+      </>
+    );
+  }
 
 export default App
