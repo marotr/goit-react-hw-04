@@ -3,7 +3,7 @@ import BarLoader from "react-spinners/BarLoader";
 
 const Loader = () => {
   return (
-    <div className={css.loaderContainer}><BarLoader color="#36d7b7" /></div>
+    <div className={css.loaderContainer}><BarLoader color="#1e748e" /></div>
   )
 }
 

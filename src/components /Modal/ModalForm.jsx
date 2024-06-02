@@ -27,7 +27,7 @@ const ModalForm = ({image, openModal, modalIsOpen, afterOpenModal, closeModal}) 
     >
       
       <button className={css.closeBtn} onClick={closeModal}><AiOutlineClose/></button>
-      <div> <img src={urls.full} alt={alt_description} key={id} style={{ width: '100%' } } />
+      <div> <img src={urls.full} alt={alt_description} key={id}  />
       <ul className={css.cardDetails}>
        
         <li className={css.cardElement}>
