@@ -5,7 +5,10 @@ import ErrorMessage from './components /ErrorMessage/ErrorMassage'
 import SearchBar from './components /SearchBar/SearchBar';
 import './App.css'
 import { getImagesApi } from './components /api/images-api';
-
+import LoadMoreBtn from './components /LoadMoreBtn/LoadMoreBtn';
+import ModalForm from './components /Modal/ModalForm';
+import Modal from 'react-modal';
+Modal.setAppElement('#root');
 
 function App() {
 
@@ -14,6 +17,10 @@ function App() {
   const [error, setError] = useState(false)
   const [query, setQuery] = useState('')
   const [page, setPage] = useState(1)
+  const [selectedImage, setSelectedImage] = useState (null)
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+
   useEffect(() => {
     const fetchImages = async () => {
       try {
@@ -21,8 +28,6 @@ function App() {
         setIsLoading(true)
         const data = await getImagesApi(query, page);
         setImages((prev) => [...prev, ...data]);
-      
-      
         
       } catch (error) {
        
@@ -34,7 +39,7 @@ function App() {
       }
       
     }
-    // query && fetchImages();
+  
     if (query) fetchImages();
   
   }, [page, query])
@@ -48,14 +53,38 @@ function App() {
   const handleLoadMore = async () => {
     setPage(page + 1)
   }
+
+  // Modal
+ 
+
+  const openModal = (image) => {
+    setSelectedImage (image)
+    setIsOpen(true);
+  }
+
+ const  afterOpenModal =() => {
+    
+  }
+
+  const closeModal = () => {
+    setIsOpen(false);
+    setSelectedImage(null)
+  }
     return (
       <>
         <SearchBar submit={handleSubmit} />
-        {isLoading && <p><Loader /></p>
+        {isLoading && <Loader />
         }
         {error && <ErrorMessage />}
-        {images.length > 0 && (<ImageGallery images={images} />)}
-        {images.length > 0 && <button onClick={handleLoadMore}>load more..</button>}
+        {images.length > 0 && (<ImageGallery images={images}  onImageClick = {openModal}/>)}
+        {images.length > 0 && (<LoadMoreBtn handleLoadMore={ handleLoadMore} />)}
+        { selectedImage && (
+        <ModalForm 
+        image = {selectedImage}
+        modalIsOpen = {modalIsOpen} 
+        openModal={openModal} 
+        afterOpenModal= {afterOpenModal} 
+        closeModal ={closeModal}/>)}
        
       
       </>

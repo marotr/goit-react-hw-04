@@ -11,16 +11,16 @@ const SearchBar = ({submit}) => {
  
   return (
     
-      <header><Formik initialValues={{ query: '' }} onSubmit={handleSubmit}>
-          <Form>
-              <Field name='query'
+      <header><Formik   initialValues={{ query: '' }} onSubmit={handleSubmit}>
+          <Form className={ css.queryForm} >
+              <Field className={ css.query } name='query'
                     id={searchBarId}
                     type="text"
                     autoComplete="off"
                     autoFocus
                     placeholder="Search images and photos"
     />
-    <button type="submit">Search</button>
+    <button className={css.searchBtn} type="submit">Search</button>
  </Form>
       </Formik>
           </header>
