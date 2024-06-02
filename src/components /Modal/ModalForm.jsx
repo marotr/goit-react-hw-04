@@ -1,10 +1,10 @@
-import Modal from "react-modal";
-import ImageCard from "../ImageGallery/ImageCard/ImageCard";
+import ReactModal from "react-modal";
+import ImageCard from "../ImageCard/ImageCard";
 import css from './ModalForm.module.css'
 import { AiOutlineClose } from "react-icons/ai";
 
 
-const ModalForm = ({image, openModal, modalIsOpen, afterOpenModal, closeModal}) => 
+const ModalForm = ({image, openModal, modalIsOpen, closeModal}) => 
      {
         console.log('ModalForm image:', image);
         const {
@@ -17,11 +17,11 @@ const ModalForm = ({image, openModal, modalIsOpen, afterOpenModal, closeModal}) 
   return (
     <div > 
     <ImageCard onClick={openModal}>Open Modal</ImageCard>
-    <Modal overlayClassName={css.overlay} className={css.modalContent}
+    <ReactModal overlayClassName={css.overlay} className={css.modalContent}
 
       
       isOpen={modalIsOpen}
-      onAfterOpen={afterOpenModal}
+      
       onRequestClose={closeModal}
       contentLabel="Image Modal"
     >
@@ -52,7 +52,7 @@ const ModalForm = ({image, openModal, modalIsOpen, afterOpenModal, closeModal}) 
       </ul> 
      </div>
       
-    </Modal>
+    </ReactModal>
   </div>
   )
 }

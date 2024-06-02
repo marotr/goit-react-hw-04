@@ -7,8 +7,10 @@ import './App.css'
 import { getImagesApi } from './components /api/images-api';
 import LoadMoreBtn from './components /LoadMoreBtn/LoadMoreBtn';
 import ModalForm from './components /Modal/ModalForm';
-import Modal from 'react-modal';
-Modal.setAppElement('#root');
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ReactModal from 'react-modal';
+ReactModal.setAppElement('#root');
 
 function App() {
 
@@ -23,6 +25,9 @@ function App() {
 
   useEffect(() => {
     const fetchImages = async () => {
+      if (!query) {
+        return;
+      }
       try {
         setError(false)
         setIsLoading(true)
@@ -32,6 +37,7 @@ function App() {
       } catch (error) {
        
         setError(true)
+        toast.error('Failed to fetch images. Please try again later.');
         
       }
       finally {
@@ -44,11 +50,15 @@ function App() {
   
   }, [page, query])
   
-  const handleSubmit = async (searchQuery) => {
-    setQuery(searchQuery)
-    setImages([])
-    setPage(1)
-  }
+  const handleSubmit = (searchQuery) => {
+    if (!searchQuery.trim()) {
+      toast.error('Search query cannot be empty.');
+      return;
+    }
+    setQuery(searchQuery);
+    setImages([]);
+    setPage(1);
+  };
 
   const handleLoadMore = async () => {
     setPage(page + 1)
@@ -62,9 +72,7 @@ function App() {
     setIsOpen(true);
   }
 
- const  afterOpenModal =() => {
-    
-  }
+
 
   const closeModal = () => {
     setIsOpen(false);
@@ -72,7 +80,7 @@ function App() {
   }
     return (
       <>
-        <SearchBar submit={handleSubmit} />
+        {<SearchBar submit={handleSubmit} />}
         {isLoading && <Loader />
         }
         {error && <ErrorMessage />}
@@ -83,10 +91,10 @@ function App() {
         image = {selectedImage}
         modalIsOpen = {modalIsOpen} 
         openModal={openModal} 
-        afterOpenModal= {afterOpenModal} 
+        
         closeModal ={closeModal}/>)}
        
-      
+       <ToastContainer />
       </>
     );
   }
