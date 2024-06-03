@@ -6,7 +6,7 @@ import { AiOutlineClose } from "react-icons/ai";
 
 const ModalForm = ({image, openModal, modalIsOpen, closeModal}) => 
      {
-        console.log('ModalForm image:', image);
+    
         const {
             alt_description,
             likes,

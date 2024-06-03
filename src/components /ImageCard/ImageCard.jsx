@@ -7,8 +7,8 @@ const ImageCard = ({ image, onClick }) => {
   const { alt_description, urls } = image;
 
   return (
-    <div className={css.imageCard} onClick={onClick}>
-      <img src={urls.small} alt={alt_description} className={css.image} />
+    <div className={css.imageCard} >
+      <img onClick={onClick} src={urls.small} alt={alt_description} className={css.image} />
     </div>
   );
 };
