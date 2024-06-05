@@ -1,9 +1,9 @@
 import ReactModal from "react-modal";
-import css from './ModalForm.module.css'
+import css from './ImageModal.module.css'
 import { AiOutlineClose } from "react-icons/ai";
 
 
-const ModalForm = ({image,  modalIsOpen, closeModal}) => 
+const ImageModal = ({image,  modalIsOpen, closeModal}) => 
      {
     
         const {
@@ -22,7 +22,7 @@ const ModalForm = ({image,  modalIsOpen, closeModal}) =>
       isOpen={modalIsOpen}
       
       onRequestClose={closeModal}
-      contentLabel="Image Modal"
+      contentLabel="ImageModal"
     >
       
       <button className={css.closeBtn} onClick={closeModal}><AiOutlineClose/></button>
@@ -58,4 +58,4 @@ const ModalForm = ({image,  modalIsOpen, closeModal}) =>
   )
 }
 
-export default ModalForm
+export default ImageModal

@@ -6,7 +6,7 @@ import SearchBar from './components /SearchBar/SearchBar';
 import './App.css'
 import { getImagesApi } from './components /api/images-api';
 import LoadMoreBtn from './components /LoadMoreBtn/LoadMoreBtn';
-import ModalForm from './components /Modal/ModalForm';
+import  ImageModal from './components /Image Modal/ImageModal'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactModal from 'react-modal';
@@ -87,7 +87,7 @@ function App() {
         {images.length > 0 && (<ImageGallery images={images}  onImageClick = {openModal}/>)}
         {images.length > 0 && (<LoadMoreBtn handleLoadMore={ handleLoadMore} />)}
         { selectedImage && (
-        <ModalForm 
+        <ImageModal
         image = {selectedImage}
         modalIsOpen = {modalIsOpen} 
         openModal={openModal} 
